@@ -1,0 +1,74 @@
+name: Bug Report
+description: File a bug report
+labels: ["bug"]
+projects: ["maxeoneo/1"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: "Please tell us what happened."
+      placeholder: "Enter your description here"
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: "How can we reproduce this issue? (A step-by-step set of instructions to reproduce the problem (if possible))"
+      placeholder: "A step-by-step set of instructions to reproduce the problem (if possible)"
+      value: "1. \n2. "
+    validations:
+      required: true
+  - type: textarea
+    id: expected-results
+    attributes:
+      label: "Expected Results"
+      description: What did you expect would happen?
+      placeholder: "Enter your description here"
+    validations:
+      required: true
+  - type: textarea
+    id: actual-results
+    attributes:
+      label: "Actual Results"
+      description: What really happened? Please add screenshots and recordings if necessary.
+      placeholder: "Enter your description here"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      multiple: false
+      description: Which platform does this bug affect?
+      options:
+        - Android
+        - iOS
+        - Web
+      default: 0
+    validations:
+      required: true
+
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: "Describe your environment"
+      value: "App Version:
+              \nOS Version:
+              \nWebApp Version:
+              \nDevice Model: "
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: "Evaluate 2 things: 1. If it blocks user's experience to do some certain action. 2. How many users are affected."
+      multiple: true
+      options:
+        - Critical
+        - Major
+        - Minor

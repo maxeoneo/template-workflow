@@ -1,0 +1,46 @@
+name: Update Platform Field in Project
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  update-field:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check issue for platform
+        run: |
+          PLATFORM_OPTION_ID=""
+
+          # Extract the platform value after "### Platform"
+          PLATFORM=$(echo "$ISSUE_BODY" | awk '/### Platform/ {getline; getline; print}')
+
+          # Determine the option ID based on the extracted platform value
+          case $PLATFORM in
+            "iOS")
+              PLATFORM_OPTION_ID="1edc1139"
+              ;;
+            "Android")
+              PLATFORM_OPTION_ID="fc7a6f55"
+              ;;
+            "Web")
+              PLATFORM_OPTION_ID="9295a064"
+              ;;
+          esac
+
+          echo "PLATFORM_OPTION_ID=$PLATFORM_OPTION_ID" >> $GITHUB_ENV
+          echo $PLATFORM_OPTION_ID
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+
+      - name: Update Platform Field in Project
+        run: |
+          if [ -z "$PLATFORM_OPTION_ID" ]; then
+            echo "Unsupported or missing platform."
+            exit 1
+          fi
+
+          # Use GitHub CLI to update the custom field for the issue using the option ID
+          gh project item-edit --id ${{ github.event.issue.id }} --field-id PVTSSF_lAHOAQMXPs4AWZP5zgOUAXU --project-id PVT_kwHOAQMXPs4AWZP5 --single-select-option-id $PLATFORM_OPTION_ID
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
